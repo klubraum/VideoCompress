@@ -11,8 +11,6 @@ import java.io.File
 
 class Utility(private val channelName: String) {
 
-    fun isLandscapeImage(orientation: Int) = orientation != 90 && orientation != 270
-
     fun deleteFile(file: File) {
         if (file.exists()) {
             file.delete()
@@ -52,11 +50,6 @@ class Utility(private val channelName: String) {
             null
         }
         val ori = orientation?.toIntOrNull()
-        if (ori != null && isLandscapeImage(ori)) {
-            val tmp = width
-            width = height
-            height = tmp
-        }
 
         retriever.release()
 
