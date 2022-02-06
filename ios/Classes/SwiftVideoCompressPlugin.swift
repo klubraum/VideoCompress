@@ -108,7 +108,7 @@ public class SwiftVideoCompressPlugin: NSObject, FlutterPlugin {
         let duration = asset.duration.seconds * 1000
         let filesize = track.totalSampleDataLength
         
-        let size = track.naturalSize.applying(track.preferredTransform)
+        let size = track.naturalSize
         
         let width = abs(size.width)
         let height = abs(size.height)
