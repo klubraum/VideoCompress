@@ -100,7 +100,7 @@ public class SwiftVideoCompressPlugin: NSObject, FlutterPlugin {
         let playerItem = AVPlayerItem(url: url)
         let metadataAsset = playerItem.asset
         
-        let orientation = avController.getVideoOrientation(path)
+        let orientation = avController.getVideoOrientation(track)
         
         let title = avController.getMetaDataByTag(metadataAsset,key: "title")
         let author = avController.getMetaDataByTag(metadataAsset,key: "author")

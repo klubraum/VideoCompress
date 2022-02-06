@@ -23,23 +23,13 @@ class AvController: NSObject {
         return track
     }
     
-    public func getVideoOrientation(_ path:String)-> Int? {
-        let url = Utility.getPathUrl(path)
-        let asset = getVideoAsset(url)
-        guard let track = getTrack(asset) else {
-            return nil
-        }
-        let size = track.naturalSize
+    public func getVideoOrientation(_ track:AVAssetTrack)-> Int? {
         let txf = track.preferredTransform
-        if size.width == txf.tx && size.height == txf.ty {
-            return 0
-        } else if txf.tx == 0 && txf.ty == 0 {
-            return 90
-        } else if txf.tx == 0 && txf.ty == size.width {
-            return 180
-        } else {
-            return 270
+        let degrees = Int((atan2(txf.b, txf.a)) * (180 / Double.pi))
+        if (degrees < 0) {
+            return degrees + 360;            
         }
+        return degrees
     }
     
     public func getMetaDataByTag(_ asset:AVAsset,key:String)->String {
