@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-import '../progress_callback/compress_mixin.dart';
-import '../video_compress/video_quality.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../media/media_info.dart';
+import 'package:video_compress/src/progress_callback/compress_mixin.dart';
+import 'package:video_compress/video_compress.dart';
 
 abstract class IVideoCompress extends CompressMixin {}
 
@@ -37,7 +37,9 @@ extension Compress on IVideoCompress {
   Future<T?> _invoke<T>(String name, [Map<String, dynamic>? params]) async {
     T? result;
     try {
-      result = params != null ? await channel.invokeMethod(name, params) : await channel.invokeMethod(name);
+      result = params != null
+          ? await channel.invokeMethod(name, params)
+          : await channel.invokeMethod(name);
     } on PlatformException catch (e) {
       debugPrint('''Error from VideoCompress: 
       Method: $name
@@ -81,7 +83,7 @@ extension Compress on IVideoCompress {
       'position': position,
     }));
 
-    final file = File(filePath!);
+    final file = File(Uri.decodeFull(filePath!));
 
     return file;
   }
@@ -137,6 +139,7 @@ extension Compress on IVideoCompress {
       debugPrint('''VideoCompress: You can try to subscribe to the 
       compressProgress\$ stream to know the compressing state.''');
     }
+
     // ignore: invalid_use_of_protected_member
     setProcessingStatus(true);
     final jsonStr = await _invoke<String>('compressVideo', {
