@@ -1,4 +1,4 @@
-
+import Foundation
 class Utility: NSObject {
     static let fileManager = FileManager.default
     
